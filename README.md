@@ -3,14 +3,15 @@ optparse-js
 
 Optparse-js is a command line option parser for Javascript. It's slightly based on Ruby's implementation optparse but with some differences (different languages has different needs) such as custom parsers. 
 
-All examples in this readme is using [Node.js](http://nodejs.org/). How ever, the library works with all kinds of Javascript implementations.
+All examples in this readme is use [Node.js](http://nodejs.org/). However, the library works with all kinds of Javascript implementations.
 
 
 QUICK START
 -----------
 
-The library defines one class, the OptionParser class. The class constructor takes one single argument, a list with a set of rules. Here is a quick example:
+The library defines one class, the OptionParser class. The class constructor takes a single argument, a list with a set of rules. Here is a quick example:
 
+```JavaScript
 	// Import the sys library
 	var sys = require('sys');
 
@@ -33,14 +34,15 @@ The library defines one class, the OptionParser class. The class constructor tak
 	});
 	
 	parser.parse(process.argv);
-
+```
 
 DEFINING RULES
 --------------
 The OptionParser constructor takes an Array with rules. Each rule is represented by an array (tuple) of two or three values. A typical rule definition may look like this:
 
+```JavaScript
 	['-h', '--help', 'Print this help']
-	
+```
 	
 The first value is optional, and represents an alias for the long-named switch (the second value, in this case `--help`). 
 
@@ -51,7 +53,7 @@ The third argument is an optional rule description.
 
 OPTION FILTERS
 --------------
-Filters is a neat feature that let you filter option arguments. The OptionParser itself as already a set of built-in common filter's. These are:
+Filters are a neat feature which let you filter option arguments. The OptionParser itself as already a set of built-in common filters. These are:
 
 - NUMBER, supports both decimal and hexadecimal numbers.
 - DATE, filters arguments that matches YYYY-MM-DD. 
@@ -59,18 +61,21 @@ Filters is a neat feature that let you filter option arguments. The OptionParser
  
 It's simple to use any of the filter above in your rule-set. Here is a quick example how to filter number: 
 
+```JavaScript
 	var rules = [
 		['--first-option NUMBER', 'Takes a number as argument'],
 		['--second-option [NUMBER]', 'Takes an optional number as argument']
 	]
+```
 
-You can add your own set of filter by calling the *parser_instance.filter* method:
+You can add your own set of filters by calling the *parser_instance.filter* method:
 
+```JavaScript
 	parser.filter('single_char', function(value) {
 		if(value.length != 1) throw "Filter mismatch.";
 		return value;
 	});
-
+```
 
 OPTION PARSER
 -------------
@@ -85,37 +90,44 @@ An optional title for the options list. This text is included when calling `toSt
 
 
 ### function on(switch_or_arg_index, callback)
-Add's a callback for a switch or an argument (defined by index). Switch hooks MUST be typed witout the leading `--`. This example show how to hook a switch:
+Add's a callback for a switch or an argument (defined by index). Switch hooks MUST be typed witout the leading `--`. This example shows how to hook a switch:
 
+```JavaScript
 	parser.on('help', function(optional_argument) {
 		// Show help section
 	});
-	
-And this example show how to hook a positional argument (an option without the leading - or --).
+```
+
+And this example shows how to hook a positional argument (an option without the leading - or --).
 Note that positional argument 0 will be "node" and positional argument 1 will be the path of the
 script being run. Positional argument 2 will be the first positional argument after the script path: 
 
+```JavaScript
 	parser.on(2, function(opt) {
 		console.log('The first non-switch option is:' +  opt);
 	});
+```
 	
-It's also possible to define a default handler. The default handler is called when no rule's are meet. Here is an example how to add a ´default handler´:
+It's also possible to define a default handler. The default handler is called when no rules are meet. Here is an example of how to add a ´default handler´:
 
+```JavaScript
 	parser.on(function(opt) {
 		console.log('No handler was defined for option:' +  opt);
 	});
+```
 	
 Use the wildcard handler to build a custom `on` handler.
 
+```JavaScript
 	parser.on('*', function(opt, value) {
 		console.log('option=' + opt + ', value=' + value);
 	});
+```
 	
 ### function filter(name, callback)
 Adds a new filter extension to the OptionParser instance. The first argument is the name of the filter (trigger). The second argument is the actual filter  See the ´OPTION FILTERS´ section for more info. 
 
-It's possible to override the default filters by passing the value "_DEFAULT" to the `name` argument. The name of the filter is automatically transformed into 
-upper case.
+It's possible to override the default filters by passing the value "_DEFAULT" to the `name` argument. The name of the filter is automatically transformed into upper case.
 
 
 ### function halt([callback]) 
@@ -125,10 +137,11 @@ The function also takes an optional callback argument. If the callback argument 
 
 Here is an example how to add an `on_halt` callback:
 
+```JavaScript
 	parser.halt(function() {
 		console.log('An option callback interupted the parser');
 	});
-
+```
 	
 ### function parse(arguments)
 Start's parsing of arguments. This should be the last thing you do.
