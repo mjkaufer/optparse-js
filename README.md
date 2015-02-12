@@ -12,28 +12,28 @@ QUICK START
 The library defines one class, the OptionParser class. The class constructor takes a single argument, a list with a set of rules. Here is a quick example:
 
 ```JavaScript
-	// Import the sys library
-	var sys = require('sys');
+// Import the sys library
+var sys = require('sys');
 
-	// Import the optparse library.
-	var optparse = require('optparse');
+// Import the optparse library.
+var optparse = require('optparse');
 	
-	// Define an option called `help`. We give it a quick alias named `-h` 	
-	// and a quick help text.
-	var switches = [
-		['-h', '--help', 'Shows help sections']
-	];
-	
-	// Create a new OptionParser.
-	var parser = new optparse.OptionParser(switches);
-	
-	// Hook the help option. The callback will be executed when the OptionParser 
-	// hits the switch `-h` or `--help`. 
-	parser.on('help', function() {
-		console.log('Help');
-	});
-	
-	parser.parse(process.argv);
+// Define an option called `help`. We give it a quick alias named `-h` 	
+// and a quick help text.
+var switches = [
+	['-h', '--help', 'Shows help sections']
+];
+
+// Create a new OptionParser.
+var parser = new optparse.OptionParser(switches);
+
+// Hook the help option. The callback will be executed when the OptionParser 
+// hits the switch `-h` or `--help`. 
+parser.on('help', function() {
+	console.log('Help');
+});
+
+parser.parse(process.argv);
 ```
 
 DEFINING RULES
@@ -41,7 +41,7 @@ DEFINING RULES
 The OptionParser constructor takes an Array with rules. Each rule is represented by an array (tuple) of two or three values. A typical rule definition may look like this:
 
 ```JavaScript
-	['-h', '--help', 'Print this help']
+['-h', '--help', 'Print this help']
 ```
 	
 The first value is optional, and represents an alias for the long-named switch (the second value, in this case `--help`). 
@@ -62,19 +62,19 @@ Filters are a neat feature which let you filter option arguments. The OptionPars
 It's simple to use any of the filter above in your rule-set. Here is a quick example how to filter number: 
 
 ```JavaScript
-	var rules = [
-		['--first-option NUMBER', 'Takes a number as argument'],
-		['--second-option [NUMBER]', 'Takes an optional number as argument']
-	]
+var rules = [
+	['--first-option NUMBER', 'Takes a number as argument'],
+	['--second-option [NUMBER]', 'Takes an optional number as argument']
+]
 ```
 
 You can add your own set of filters by calling the *parser_instance.filter* method:
 
 ```JavaScript
-	parser.filter('single_char', function(value) {
-		if(value.length != 1) throw "Filter mismatch.";
-		return value;
-	});
+parser.filter('single_char', function(value) {
+	if(value.length != 1) throw "Filter mismatch.";
+	return value;
+});
 ```
 
 OPTION PARSER
@@ -93,9 +93,9 @@ An optional title for the options list. This text is included when calling `toSt
 Add's a callback for a switch or an argument (defined by index). Switch hooks MUST be typed witout the leading `--`. This example shows how to hook a switch:
 
 ```JavaScript
-	parser.on('help', function(optional_argument) {
-		// Show help section
-	});
+parser.on('help', function(optional_argument) {
+	// Show help section
+});
 ```
 
 And this example shows how to hook a positional argument (an option without the leading - or --).
@@ -103,25 +103,25 @@ Note that positional argument 0 will be "node" and positional argument 1 will be
 script being run. Positional argument 2 will be the first positional argument after the script path: 
 
 ```JavaScript
-	parser.on(2, function(opt) {
-		console.log('The first non-switch option is:' +  opt);
-	});
+parser.on(2, function(opt) {
+	console.log('The first non-switch option is:' +  opt);
+});
 ```
 	
 It's also possible to define a default handler. The default handler is called when no rules are meet. Here is an example of how to add a ´default handler´:
 
 ```JavaScript
-	parser.on(function(opt) {
-		console.log('No handler was defined for option:' +  opt);
-	});
+parser.on(function(opt) {
+	console.log('No handler was defined for option:' +  opt);
+});
 ```
 	
 Use the wildcard handler to build a custom `on` handler.
 
 ```JavaScript
-	parser.on('*', function(opt, value) {
-		console.log('option=' + opt + ', value=' + value);
-	});
+parser.on('*', function(opt, value) {
+	console.log('option=' + opt + ', value=' + value);
+});
 ```
 	
 ### function filter(name, callback)
@@ -138,9 +138,9 @@ The function also takes an optional callback argument. If the callback argument 
 Here is an example how to add an `on_halt` callback:
 
 ```JavaScript
-	parser.halt(function() {
-		console.log('An option callback interupted the parser');
-	});
+parser.halt(function() {
+	console.log('An option callback interupted the parser');
+});
 ```
 	
 ### function parse(arguments)
